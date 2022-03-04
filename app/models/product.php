@@ -3,13 +3,12 @@ namespace Models;
 
 class Product {
 
-    public int $id;
+    public int $product_ID;
     public string $name;
     public string $price;
-    public string $description;
     public string $image;
-    public string $category_id;
-  
+    public int $category_ID;
+    public string $category_Name;
 }
 
 ?>

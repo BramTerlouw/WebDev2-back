@@ -11,11 +11,16 @@ class ProductRepository extends Repository
     function getAll($offset = NULL, $limit = NULL)
     {
         try {
-            $query = "SELECT * FROM product";
+            $sqlquery = 
+            "SELECT p.product_ID, p.name, p.price, p.image, p.category_ID, c.name as category_Name 
+                FROM product AS p
+                    INNER JOIN category AS c
+                        ON p.category_ID = c.category_ID";
+
             if (isset($limit) && isset($offset)) {
-                $query .= " LIMIT :limit OFFSET :offset ";
+                $sqlquery .= " LIMIT :limit OFFSET :offset ";
             }
-            $stmt = $this->connection->prepare($query);
+            $stmt = $this->connection->prepare($sqlquery);
             if (isset($limit) && isset($offset)) {
                 $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
                 $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);

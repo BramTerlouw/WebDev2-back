@@ -8,8 +8,6 @@ use Services\ProductService;
 class ProductController extends Controller
 {
     private $service;
-
-    // initialize services
     function __construct()
     {
         $this->service = new ProductService();
@@ -17,7 +15,8 @@ class ProductController extends Controller
 
     public function getAll()
     {
-        // this code seems to have been lost
+        $products = $this->service->getAll();
+        $this->respond($products);
     }
 
     public function getOne($id)
