@@ -25,7 +25,7 @@ class ProductService {
     }
 
     public function update($item, $id) {       
-        return $this->repository->update($item, $id);        
+        $this->repository->update($item, $id);        
     }
 
     public function delete($item) {       

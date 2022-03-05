@@ -12,10 +12,13 @@ class ProductRepository extends Repository
     {
         try {
             $sqlquery = 
-            "SELECT p.product_ID, p.name, p.price, p.image, p.category_ID, c.name as category_Name 
+            "SELECT p.product_ID, p.name, p.price, p.image, p.category_ID, c.name as category_Name, 
+            s.amount as amount 
                 FROM product AS p
                     INNER JOIN category AS c
-                        ON p.category_ID = c.category_ID";
+                        ON p.category_ID = c.category_ID
+                    INNER JOIN stock AS s
+                        ON p.product_ID = s.product_ID";
 
             if (isset($limit) && isset($offset)) {
                 $sqlquery .= " LIMIT :limit OFFSET :offset ";
@@ -39,7 +42,18 @@ class ProductRepository extends Repository
     function getOne($id)
     {
         try {
-            $stmt = $this->connection->prepare("SELECT * FROM product WHERE id = :id");
+            $sqlquery = 
+            "SELECT p.product_ID, p.name, p.price, p.image, p.category_ID, c.name as category_Name, 
+            s.amount as amount 
+                FROM product AS p
+                    INNER JOIN category AS c
+                        ON p.category_ID = c.category_ID
+                    INNER JOIN stock AS s
+                        ON p.product_ID = s.product_ID
+                 WHERE p.product_ID = :id";
+
+            $stmt = $this->connection->prepare($sqlquery);
+
             $stmt->bindParam(':id', $id);
             $stmt->execute();
 
@@ -71,11 +85,16 @@ class ProductRepository extends Repository
     function update($product, $id)
     {
         try {
-            $stmt = $this->connection->prepare("UPDATE product SET name = ?, price = ?, description = ?, image = ?, category_id = ? WHERE id = ?");
+            $sqlquery = "UPDATE product SET name=:name, price=:price, image=:image, category_ID=:category WHERE product_ID=:id";
+            $stmt = $this->connection->prepare($sqlquery);
 
-            $stmt->execute([$product->name, $product->price, $product->description, $product->image, $product->category_id, $id]);
+            $stmt->bindParam(':name', $product->name);
+            $stmt->bindParam('price', $product->price);
+            $stmt->bindParam(':image', $product->image);
+            $stmt->bindParam(':category', $product->category_ID);
+            $stmt->bindParam(':id', $product->product_ID);
 
-            return $product;
+            $stmt->execute();
         } catch (PDOException $e) {
             echo $e;
         }
@@ -84,7 +103,7 @@ class ProductRepository extends Repository
     function delete($id)
     {
         try {
-            $stmt = $this->connection->prepare("DELETE FROM product WHERE id = :id");
+            $stmt = $this->connection->prepare("DELETE FROM product WHERE product_ID = :id");
             $stmt->bindParam(':id', $id);
             $stmt->execute();
             return;

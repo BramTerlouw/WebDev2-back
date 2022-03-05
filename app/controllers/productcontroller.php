@@ -23,10 +23,38 @@ class ProductController extends Controller
     {
         $product = $this->service->getOne($id);
 
-        // we might need some kind of error checking that returns a 404 if the product is not found in the DB
-
-        $this->respond($product);
+        if (!$product) {
+            $this->respondWithError(404, "Product not found");
+        } else {
+            $this->respond($product);
+        }
     }
+
+    public function update($id)
+    {
+        try {
+            $product = $this->createObjectFromPostedJson("Models\Product");
+            $this->service->update($product, $product->product_ID);
+            $this->respond($product);
+
+        } catch (Exception $e) {
+            $this->respondWithError(500, $e->getMessage());
+        }
+    }
+
+    public function delete($id) {
+        try {
+            $this->service->delete($id);
+            $this->respond(true);
+
+        } catch (Exception $e) {
+            $this->respondWithError(500, $e->getMessage());
+        }
+    }
+
+
+
+
 
     public function create()
     {
@@ -40,9 +68,4 @@ class ProductController extends Controller
 
         $this->respond($product);
     }
-
-    public function update($id)
-    {
-        // There is no code here
-    } 
 }

@@ -9,6 +9,7 @@ class Product {
     public string $image;
     public int $category_ID;
     public string $category_Name;
+    public int $stock;
 }
 
 ?>
