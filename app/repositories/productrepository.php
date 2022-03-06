@@ -31,9 +31,9 @@ class ProductRepository extends Repository
             $stmt->execute();
 
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Models\Product');
-            $articles = $stmt->fetchAll();
+            $products = $stmt->fetchAll();
 
-            return $articles;
+            return $products;
         } catch (PDOException $e) {
             echo $e;
         }
@@ -66,22 +66,6 @@ class ProductRepository extends Repository
         }
     }
 
-    function insert($product)
-    {
-        try {
-            $stmt = $this->connection->prepare("INSERT into product (name, price, description, image, category_id) VALUES (?,?,?,?,?)");
-
-            $stmt->execute([$product->name, $product->price, $product->description, $product->image, $product->category_id]);
-
-            $product->id = $this->connection->lastInsertId();
-
-            return $product;
-        } catch (PDOException $e) {
-            echo $e;
-        }
-    }
-
-
     function update($product, $id)
     {
         try {
@@ -95,6 +79,8 @@ class ProductRepository extends Repository
             $stmt->bindParam(':id', $product->product_ID);
 
             $stmt->execute();
+            return $this->getOne($product->product_ID);
+
         } catch (PDOException $e) {
             echo $e;
         }
@@ -111,5 +97,26 @@ class ProductRepository extends Repository
             echo $e;
         }
         return true;
+    }
+
+    function insert($product)
+    {
+        try {
+            $sqlquery = "INSERT into product (name, price, category_ID, image) VALUES (:name, :price, :category, :image)";
+            $stmt = $this->connection->prepare($sqlquery);
+
+            $stmt->bindParam(':name', $product->name);
+            $stmt->bindParam('price', $product->price);
+            $stmt->bindParam(':category', $product->category_ID);
+            $stmt->bindParam(':image', $product->image);
+
+            $stmt->execute();
+
+            $product->product_ID = $this->connection->lastInsertId();
+            return $product;
+
+        } catch (PDOException $e) {
+            echo $e;
+        }
     }
 }

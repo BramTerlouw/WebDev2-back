@@ -18,9 +18,9 @@ class CategoryRepository extends Repository
             $stmt->execute();
 
             $stmt->setFetchMode(PDO::FETCH_CLASS, 'Models\Category');
-            $articles = $stmt->fetchAll();
+            $categories = $stmt->fetchAll();
 
-            return $articles;
+            return $categories;
         } catch (PDOException $e) {
             echo $e;
         }

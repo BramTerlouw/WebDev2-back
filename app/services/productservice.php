@@ -20,16 +20,16 @@ class ProductService {
         return $this->repository->getOne($id);
     }
 
-    public function insert($item) {       
-        return $this->repository->insert($item);        
+    public function insert($data) {       
+        return $this->repository->insert($data);        
     }
 
-    public function update($item, $id) {       
-        $this->repository->update($item, $id);        
+    public function update($data, $id) {       
+        $this->repository->update($data, $id);        
     }
 
-    public function delete($item) {       
-        return $this->repository->delete($item);        
+    public function delete($data) {       
+        return $this->repository->delete($data);        
     }
 }
 

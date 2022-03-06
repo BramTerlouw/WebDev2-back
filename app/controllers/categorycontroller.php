@@ -15,7 +15,7 @@ class CategoryController extends Controller
 
     public function getAll()
     {
-        $products = $this->service->getAll();
-        $this->respond($products);
+        $categories = $this->service->getAll();
+        $this->respond($categories);
     }
 }

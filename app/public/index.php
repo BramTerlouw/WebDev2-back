@@ -8,18 +8,19 @@ ini_set("display_errors", 1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-// Create Router instance
+// create router
 $router = new \Bramus\Router\Router();
-
 $router->setNamespace('Controllers');
 
-// routes for the articles endpoint
+// define routes
 $router->get('/products', 'ProductController@getAll');
 $router->get('/products/(\d+)', 'ProductController@getOne');
+$router->post('/products', 'ProductController@create');
 $router->put('/products/(\d+)', 'ProductController@update');
 $router->delete('.products/(\d+)', 'ProductController@delete');
 
 $router->get('/categories', 'CategoryController@getAll');
+$router->post('/stocks', 'StockController@create');
 
-// Run it!
+// start router
 $router->run();
