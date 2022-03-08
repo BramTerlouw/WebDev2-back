@@ -15,6 +15,12 @@ class CategoryController extends Controller
 
     public function getAll()
     {
+        try {
+            $categories = $this->service->getAll();
+            $this->respond($categories);
+        } catch (Exception $e) {
+            $this->respondWithError(500, $e->getMessage());
+        }
         $categories = $this->service->getAll();
         $this->respond($categories);
     }

@@ -15,18 +15,33 @@ class ProductController extends Controller
 
     public function getAll()
     {
-        $products = $this->service->getAll();
-        $this->respond($products);
+        $offset = NULL;
+        $limit = NULL;
+
+        if (isset($_GET['offset']) && isset($_GET['limit'])) {
+            $offset = $_GET['offset'];
+            $limit = $_GET['limit'];
+        }
+        
+        try {
+            $products = $this->service->getAll($offset, $limit);
+            $this->respond($products);
+        } catch (Exception $e) {
+            $this->respondWithError(500, $e->getMessage());
+        }
     }
 
     public function getOne($id)
     {
-        $product = $this->service->getOne($id);
-
-        if (!$product) {
-            $this->respondWithError(404, "Product not found");
-        } else {
-            $this->respond($product);
+        try {
+            $product = $this->service->getOne($id);
+            if (!$product) {
+                $this->respondWithError(404, "Product not found");
+            } else {
+                $this->respond($product);
+            }
+        } catch (Exception $e) {
+            $this->respondWithError(500, $e->getMessage());
         }
     }
 
