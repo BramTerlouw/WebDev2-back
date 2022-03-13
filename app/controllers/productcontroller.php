@@ -33,12 +33,15 @@ class ProductController extends Controller
 
     public function getOne($id)
     {
-        $product = $this->service->getOne($id);
-
-        if (!$product) {
-            $this->respondWithError(404, "Product not found");
-        } else {
-            $this->respond($product);
+        try {
+            $product = $this->service->getOne($id);
+            if (!$product) {
+                $this->respondWithError(404, "Product not found");
+            } else {
+                $this->respond($product);
+            }
+        } catch (Exception $e) {
+            $this->respondWithError(500, $e->getMessage());
         }
     }
 
