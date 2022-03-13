@@ -1,6 +1,9 @@
 <?php
 namespace Controllers;
 
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+use Exception;
 class Controller {
 
     function respond($data) {
@@ -25,5 +28,30 @@ class Controller {
         $object = new $className();
         foreach ($data as $key => $value) $object->{$key} = $value;
         return $object;
+    }
+
+    function verifyToken() {
+        
+        // respond with error when no token is send
+        if (!isset($_SERVER['HTTP_AUTHORIZATION'])) {
+            $this->respondWithError(401, "No token, not autherized!");
+            return false;
+        }
+
+        try {
+            // get jwt token
+            $header = $_SERVER['HTTP_AUTHORIZATION'];
+            $array = explode(" ", $header);
+            $jwt = $array[1];
+
+            $key = "topsecretkey";
+            
+            $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+            return $decoded;
+            
+        } catch (Exception $e) {
+            $this->respondWithError(401, $e->getMessage());
+            return false;
+        }
     }
 }

@@ -15,7 +15,19 @@ class ProductController extends Controller
 
     public function getAll()
     {
-        $products = $this->service->getAll();
+        $jwt = $this->verifyToken();
+        if (!$jwt)
+            return;
+
+        $offset = NULL;
+        $limit = NULL;
+
+        if (isset($_GET['offset']) && isset($_GET['limit'])){
+            $offset = $_GET['offset'];
+            $limit = $_GET['limit'];
+        }
+
+        $products = $this->service->getAll($offset, $limit);
         $this->respond($products);
     }
 

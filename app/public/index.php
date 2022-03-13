@@ -22,5 +22,7 @@ $router->delete('/products/(\d+)', 'ProductController@delete');
 $router->get('/categories', 'CategoryController@getAll');
 $router->post('/stocks', 'StockController@create');
 
+$router->post('/users/login', 'UserController@login');
+
 // start router
 $router->run();
