@@ -27,27 +27,26 @@ class UserController extends Controller
                 return;
             }
 
-            $this->auth($user, 1000);
+            $this->auth($user);
             
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
         }
     }
 
-    private function auth($user, $exp) {
-        $key = "topsecretkey";
+    private function auth($user) {
         $payload = array(
             "iss" => "http://localhost",
             "aud" => "http://localhost",
             "iat" => time(),
             "nbf" => time(),
-            "exp" => time() + $exp,
+            "exp" => time() + 600,
             "data" => array(
                 "username" => $user->username,
             )
         );
 
-        $jwt = JWT::encode($payload, $key, 'HS256');
+        $jwt = JWT::encode($payload, $_SESSION['jwt'], 'HS256');
         $this->respond(["token" => $jwt]);
     }
 }

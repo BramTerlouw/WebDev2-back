@@ -1,4 +1,7 @@
 <?php
+session_start();
+$_SESSION['jwt'] = 'secretkey';
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Allow-Methods: POST, PUT, GET, DELETE, OPTIONS");

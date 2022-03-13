@@ -31,22 +31,17 @@ class Controller {
     }
 
     function verifyToken() {
-        
-        // respond with error when no token is send
         if (!isset($_SERVER['HTTP_AUTHORIZATION'])) {
             $this->respondWithError(401, "No token, not autherized!");
             return false;
         }
 
         try {
-            // get jwt token
             $header = $_SERVER['HTTP_AUTHORIZATION'];
             $array = explode(" ", $header);
             $jwt = $array[1];
-
-            $key = "topsecretkey";
             
-            $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+            $decoded = JWT::decode($jwt, new Key($_SESSION['jwt'], 'HS256'));
             return $decoded;
             
         } catch (Exception $e) {
