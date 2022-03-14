@@ -47,6 +47,6 @@ class UserController extends Controller
         );
 
         $jwt = JWT::encode($payload, $_SESSION['jwt'], 'HS256');
-        $this->respond(["username" => $user->username,"token" => $jwt]);
+        $this->respond(["username" => $user->username,"token" => $jwt, "role" => $user->role]);
     }
 }

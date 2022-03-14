@@ -22,6 +22,9 @@ class UserRepository extends Repository
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'Models\\User');
 
         $user = $stmt->fetch();
+        
+        if ($user == null)
+            return false;
 
         if ($user->password != $password)
             return false;
