@@ -21,7 +21,5 @@ class CategoryController extends Controller
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
         }
-        $categories = $this->service->getAll();
-        $this->respond($categories);
     }
 }
