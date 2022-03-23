@@ -9,6 +9,9 @@ use Models\User;
 
 class UserRepository extends Repository
 {
+
+    // ## authenticate user
+    // params: username, password
     public function authUser($username, $password) {
         $sqlquery = 
         "SELECT user_ID, name, email, username, password, role 

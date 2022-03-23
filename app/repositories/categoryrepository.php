@@ -8,8 +8,9 @@ use Repositories\Repository;
 
 class CategoryRepository extends Repository
 {
-    function getAll()
-    {
+
+    // ## get all category's
+    function getAll() {
         try {
             $sqlquery = "SELECT category_ID, name FROM category";
             $stmt = $this->connection->prepare($sqlquery);

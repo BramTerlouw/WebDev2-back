@@ -8,8 +8,10 @@ use Repositories\Repository;
 
 class ProductRepository extends Repository
 {
-    function getAll($offset = NULL, $limit = NULL)
-    {
+
+    // ## get all products
+    // params: offset, limit
+    function getAll($offset = NULL, $limit = NULL) {
         try {
             $sqlquery = 
             "SELECT p.product_ID, p.name, p.price, p.image, p.category_ID, c.name as category_Name, 
@@ -23,14 +25,16 @@ class ProductRepository extends Repository
             if (isset($limit) && isset($offset)) {
                 $sqlquery .= " LIMIT :limit OFFSET :offset ";
             }
+
             $stmt = $this->connection->prepare($sqlquery);
+
             if (isset($limit) && isset($offset)) {
                 $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
                 $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
             }
             $stmt->execute();
 
-            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Models\Product');
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Models\\Product');
             $products = $stmt->fetchAll();
 
             return $products;
@@ -39,8 +43,10 @@ class ProductRepository extends Repository
         }
     }
 
-    function getOne($id)
-    {
+
+    // ## get one product
+    // params: id
+    function getOne($id) {
         try {
             $sqlquery = 
             "SELECT p.product_ID, p.name, p.price, p.image, p.category_ID, c.name as category_Name, 
@@ -57,7 +63,7 @@ class ProductRepository extends Repository
             $stmt->bindParam(':id', $id);
             $stmt->execute();
 
-            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Models\Product');
+            $stmt->setFetchMode(PDO::FETCH_CLASS, 'Models\\Product');
             $product = $stmt->fetch();
 
             return $product;
@@ -66,8 +72,10 @@ class ProductRepository extends Repository
         }
     }
 
-    function update($product, $id)
-    {
+
+    // ## update an existing product
+    // params: product, id
+    function update($product, $id) {
         try {
             $sqlquery = "UPDATE product SET name=:name, price=:price, image=:image, category_ID=:category WHERE product_ID=:id";
             $stmt = $this->connection->prepare($sqlquery);
@@ -86,8 +94,10 @@ class ProductRepository extends Repository
         }
     }
 
-    function delete($id)
-    {
+
+    // ## delete a product
+    // params: id
+    function delete($id) {
         try {
             $stmt = $this->connection->prepare("DELETE FROM product WHERE product_ID = :id");
             $stmt->bindParam(':id', $id);
@@ -99,8 +109,10 @@ class ProductRepository extends Repository
         return true;
     }
 
-    function insert($product)
-    {
+
+    // ## insert a new product
+    // params: product
+    function insert($product) {
         try {
             $sqlquery = "INSERT into product (name, price, category_ID, image) VALUES (:name, :price, :category, :image)";
             $stmt = $this->connection->prepare($sqlquery);

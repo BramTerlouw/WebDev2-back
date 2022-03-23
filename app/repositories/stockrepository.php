@@ -9,8 +9,9 @@ use Repositories\Repository;
 class StockRepository extends Repository
 {
     
-    function insert($stock)
-    {
+    // ## insert new stock
+    // params: stock
+    function insert($stock) {
         try {
             $sqlquery = "INSERT into stock (product_ID, amount) VALUES (:id, :amount)";
             $stmt = $this->connection->prepare($sqlquery);

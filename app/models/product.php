@@ -2,7 +2,6 @@
 namespace Models;
 
 class Product {
-
     public int $product_ID;
     public string $name;
     public string $price;
@@ -11,5 +10,4 @@ class Product {
     public string $category_Name;
     public int $stock;
 }
-
 ?>

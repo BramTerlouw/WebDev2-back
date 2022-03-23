@@ -2,7 +2,6 @@
 namespace Models;
 
 class User {
-
     public int $user_ID;
     public string $name;
     public string $email;
@@ -10,5 +9,4 @@ class User {
     public string $password;
     public string $role;
 }
-
 ?>

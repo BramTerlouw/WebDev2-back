@@ -7,11 +7,8 @@ use PDOException;
 class Repository {
 
     protected $connection;
-
     function __construct() {
-
         require __DIR__ . '/../dbconfig.php';
-
         try {
             $this->connection = new PDO("$type:host=$servername;dbname=$database", $username, $password);
                 

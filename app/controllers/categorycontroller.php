@@ -8,13 +8,13 @@ use Services\CategoryService;
 class CategoryController extends Controller
 {
     private $service;
-    function __construct()
-    {
+    function __construct() {
         $this->service = new CategoryService();
     }
 
-    public function getAll()
-    {
+
+    // ## get all category's
+    public function getAll() {
         try {
             $categories = $this->service->getAll();
             $this->respond($categories);

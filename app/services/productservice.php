@@ -6,31 +6,43 @@ use Repositories\ProductRepository;
 class ProductService {
 
     private $repository;
-
-    function __construct()
-    {
+    function __construct() {
         $this->repository = new ProductRepository();
     }
 
+
+    // ## get all products
+    // params: offset, limit
     public function getAll($offset = NULL, $limit = NULL) {
         return $this->repository->getAll($offset, $limit);
     }
 
+
+    // ## get one product
+    // params: id
     public function getOne($id) {
         return $this->repository->getOne($id);
     }
 
-    public function insert($data) {       
-        return $this->repository->insert($data);        
+
+    // ## insert new product
+    // params: product
+    public function insert($product) {       
+        return $this->repository->insert($product);        
     }
 
-    public function update($data, $id) {       
-        $this->repository->update($data, $id);        
+
+    // ## update existing product
+    // params: product, id
+    public function update($product, $id) {       
+        $this->repository->update($product, $id);        
     }
 
-    public function delete($data) {       
-        return $this->repository->delete($data);        
+
+    // ## delete a product
+    // params: id
+    public function delete($id) {       
+        return $this->repository->delete($id);        
     }
 }
-
 ?>

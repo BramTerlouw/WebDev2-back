@@ -30,12 +30,16 @@ class Controller {
         return $object;
     }
 
+
+    // ## verify the token
     function verifyToken() {
+
         if (!isset($_SERVER['HTTP_AUTHORIZATION'])) {
             $this->respondWithError(401, "No token, not autherized!");
             return false;
         }
 
+        // get token, decode with secret key and return
         try {
             $header = $_SERVER['HTTP_AUTHORIZATION'];
             $array = explode(" ", $header);

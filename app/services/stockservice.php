@@ -6,15 +6,15 @@ use Repositories\StockRepository;
 class StockService {
 
     private $repository;
-
-    function __construct()
-    {
+    function __construct() {
         $this->repository = new StockRepository();
     }
 
-    public function insert($data) {       
-        return $this->repository->insert($data);        
+
+    // ## insert new stock
+    // params: stock
+    public function insert($stock) {       
+        return $this->repository->insert($stock);        
     }
 }
-
 ?>

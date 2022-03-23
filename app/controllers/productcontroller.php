@@ -8,13 +8,15 @@ use Services\ProductService;
 class ProductController extends Controller
 {
     private $service;
-    function __construct()
-    {
+    function __construct() {
         $this->service = new ProductService();
     }
 
-    public function getAll()
-    {
+
+    // ## get all products
+    public function getAll() {
+
+        // verify token, no token => return
         $jwt = $this->verifyToken();
         if (!$jwt)
             return;
@@ -22,6 +24,7 @@ class ProductController extends Controller
         $offset = NULL;
         $limit = NULL;
 
+        // if exist, get offset and limit for paging
         if (isset($_GET['offset']) && isset($_GET['limit'])){
             $offset = $_GET['offset'];
             $limit = $_GET['limit'];
@@ -31,8 +34,9 @@ class ProductController extends Controller
         $this->respond($products);
     }
 
-    public function getOne($id)
-    {
+
+    // ## get one product
+    public function getOne($id) {
         try {
             $product = $this->service->getOne($id);
             if (!$product) {
@@ -45,8 +49,9 @@ class ProductController extends Controller
         }
     }
 
-    public function update($id)
-    {
+
+    // ## update one product
+    public function update($id) {
         try {
             $product = $this->createObjectFromPostedJson("Models\Product");
             $this->service->update($product, $id);
@@ -57,6 +62,8 @@ class ProductController extends Controller
         }
     }
 
+
+    // ## delete one product
     public function delete($id) {
         try {
             $this->service->delete($id);
@@ -67,16 +74,16 @@ class ProductController extends Controller
         }
     }
 
-    public function create()
-    {
+
+    // ## create a new product
+    public function create() {
         try {
-            $product = $this->createObjectFromPostedJson("Models\Product");
+            $product = $this->createObjectFromPostedJson("Models\\Product");
             $this->service->insert($product);
+            $this->respond($product);
 
         } catch (Exception $e) {
             $this->respondWithError(500, $e->getMessage());
         }
-
-        $this->respond($product);
     }
 }
